@@ -2,6 +2,7 @@ package dk.itu.ssas.project;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -35,20 +36,18 @@ public class Invite extends HttpServlet {
 		try
 		{
 			Connection con = DB.getConnection();
-			String sql = 
-				"INSERT INTO perms (image_id, user_id) " + 
-				"SELECT " + request.getParameter("image_id") + ", users.id " +
-		    	"FROM users " +
-			    "WHERE users.username = '" + request.getParameter("other") + "'";
-			System.out.println(sql);
-			Statement st = con.createStatement();
-			st.executeUpdate(sql);
+			int image_id = DBUtils.getIntParameter(request, "image_id");
+			String username = request.getParameter("other");
+			PreparedStatement st = con.prepareStatement("INSERT INTO perms (image_id, user_id) SELECT ? , users.id FROM users WHERE users.username = '?'");
+			st.setInt(1, image_id);
+			st.setString(2, username);
+			st.executeUpdate();
 					
 			response.sendRedirect("main.jsp");
 		}
 		catch (SQLException e) 
 		{
 			throw new ServletException("SQL malfunction.", e);
-		}
+		}catch(NumberFormatException e){}
 	}
 }

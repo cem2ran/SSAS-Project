@@ -15,7 +15,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -68,20 +67,18 @@ public class Uploader extends HttpServlet {
 
 			ResultSet rs = statement.getGeneratedKeys();
 			rs.next();
-			String image_id = rs.getString(1);
-
-			sql = "INSERT INTO perms (image_id, user_id) values (" +
-					image_id + ", " + request.getSession().getAttribute("user") + ")";
-
-			con.createStatement().executeUpdate(sql);       
+			int image_id = Integer.parseInt(rs.getString(1));
+			PreparedStatement insert = con.prepareStatement("INSERT INTO perms (image_id, user_id) values (?, " + request.getSession().getAttribute("user") + ")");
+			insert.setInt(1, image_id);
+			insert.execute();
 	
 			response.sendRedirect("main.jsp");
 		} 
-		catch (SQLException | FileUploadException e) 
+		catch (SQLException | FileUploadException | NumberFormatException e) 
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 	}
 
 }

@@ -8,13 +8,11 @@ public class DB {
 	public static Connection getConnection() throws SQLException {
 		// Better way to do this is setting database connect info in
 		// servlet context; but for the SSAS project, that just adds
-		// complications. 
-		MysqlDataSource ds = null;
-		
-			ds = new MysqlDataSource();
-			ds.setUrl("jdbc:mysql://localhost:3306/image_site_db");
-			ds.setUser("SSAS");
-			ds.setPassword("SSAS");
-			return ds.getConnection();
+		// complications.
+		MysqlDataSource ds = new MysqlDataSource();
+		ds.setUrl("jdbc:mysql://localhost:3306/image_site_db");
+		ds.setUser("SSAS");
+		ds.setPassword("SSAS");
+		return ds.getConnection();
 	}
 }
