@@ -35,11 +35,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>mysql-connector-java-5.1.28.jar</name>
-			<type>1</type>
-			<location>/usr/share/java/mysql-connector-java-5.1.28.jar</location>
-		</link>
-		<link>
 			<name>WebContent/WEB-INF/lib/mysql-connector-java-5.1.28.jar</name>
 			<type>1</type>
 			<location>/usr/share/java/mysql-connector-java-5.1.28.jar</location>
